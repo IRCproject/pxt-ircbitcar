@@ -9,6 +9,9 @@ namespace robots {
 
     let maxCmDistance = 500 // 超音波センサーで取得できる最大距離
 
+    let baseHeading = 0;　// 基準となる角度
+
+
     /**
      * IRセンサーのアナログ値を500回分取得し、平均を求める関数
      * @returns 平均IRセンサー値（赤外線の近さを数値化：数値が高ければ近い。）
@@ -132,5 +135,31 @@ namespace robots {
         pins.digitalWritePin(DigitalPin.P12, 0);
         pins.digitalWritePin(DigitalPin.P13, 0);
     }
-}
 
+    /**
+ * 現在向いている方角を0度として設定します。
+ */
+    //% block="角度をリセット"
+    export function setCurrentHeadingAsZero(): void {
+        baseHeading = input.compassHeading();
+    }
+
+    /**
+     * 基準に対する現在の方角を取得します。
+     * @returns 基準に対する方角（-180度から180度）
+     */
+    //% block="角度"
+    export function getCurrentHeadingRelativeToZero(): number {
+        let currentHeading = input.compassHeading();
+        let relativeHeading = currentHeading - baseHeading;
+
+        // 範囲を-180度から180度に調整
+        if (relativeHeading > 180) {
+            relativeHeading -= 360;
+        } else if (relativeHeading < -180) {
+            relativeHeading += 360;
+        }
+
+        return relativeHeading;
+    }
+}
