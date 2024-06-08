@@ -6,5 +6,6 @@ basic.forever(function () {
         basic.pause(150)
         robots.stopMoter()
         basic.pause(200)
+        
     }
 })
