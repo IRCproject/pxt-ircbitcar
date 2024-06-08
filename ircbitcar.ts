@@ -23,11 +23,11 @@ namespace robots {
         }
         // 500回のセンサー値を取得したら平均値を計算
         let sum = sensorValues.reduce((a, b) => a + b, 0);
-        averageValue = sum / sensorValues.length;
+        averageValue = 1023 - sum / sensorValues.length;
         // 平均値をシリアルモニターに表示
         serial.writeValue("Average Value", averageValue);
 
-        return 1023 - averageValue;
+        return averageValue;
     }
 
     /**
@@ -95,28 +95,42 @@ namespace robots {
         }
 
         if (right < 0) {
-            pins.digitalWritePin(DigitalPin.P14, 0);
-            pins.digitalWritePin(DigitalPin.P15, 1);
-        } else if (right == 0) {
-            pins.digitalWritePin(DigitalPin.P14, 1);
-            pins.digitalWritePin(DigitalPin.P15, 1);
-        } else if (right > 0) {
             pins.digitalWritePin(DigitalPin.P14, 1);
             pins.digitalWritePin(DigitalPin.P15, 0);
+        } else if (right == 0) {
+            pins.digitalWritePin(DigitalPin.P14, 0);
+            pins.digitalWritePin(DigitalPin.P15, 0);
+        } else if (right > 0) {
+            pins.digitalWritePin(DigitalPin.P14, 0);
+            pins.digitalWritePin(DigitalPin.P15, 1);
         }
 
         if (left < 0) {
-            pins.digitalWritePin(DigitalPin.P12, 1);
-            pins.digitalWritePin(DigitalPin.P13, 0);
+            pins.digitalWritePin(DigitalPin.P12, 0);
+            pins.digitalWritePin(DigitalPin.P13, 1);
         } else if (left == 0) {
             pins.digitalWritePin(DigitalPin.P12, 0);
             pins.digitalWritePin(DigitalPin.P13, 0);
         } else if (left > 0) {
-            pins.digitalWritePin(DigitalPin.P12, 0);
-            pins.digitalWritePin(DigitalPin.P13, 1);
+            pins.digitalWritePin(DigitalPin.P12, 1);
+            pins.digitalWritePin(DigitalPin.P13, 0);
         }
 
         pins.analogWritePin(AnalogPin.P16, Math.abs(right));
         pins.analogWritePin(AnalogPin.P9, Math.abs(left));
     }
+
+    /**
+ * 左右のモーターを停止します。
+ */
+    //% block="タイヤを停止"
+    export function stopMoter(): void {
+        //右のモーターを停止
+        pins.digitalWritePin(DigitalPin.P14, 0);
+        pins.digitalWritePin(DigitalPin.P15, 0);
+        //左のモーターを停止
+        pins.digitalWritePin(DigitalPin.P12, 0);
+        pins.digitalWritePin(DigitalPin.P13, 0);
+    }
 }
+
