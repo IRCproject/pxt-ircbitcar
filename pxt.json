@@ -10,7 +10,7 @@
         "main.blocks",
         "main.ts",
         "README.md",
-        "ibcBlock.ts"
+        "ibcBlocks.ts"
         "ircbitcar.ts"
     ],
     "testFiles": [
