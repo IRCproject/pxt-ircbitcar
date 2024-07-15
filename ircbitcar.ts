@@ -63,7 +63,7 @@ namespace IRCbitCar {
 
     戻り値：距離（センチメートル単位）
     内容：超音波センサを使用して距離を測定し、結果をセンチメートル単位
-    　　　で返す関数
+       で返す関数
     -------------------------------------------------------*/
 
     let trig = DigitalPin.P8; // 超音波センサーのトリガーピン
@@ -121,29 +121,29 @@ namespace IRCbitCar {
         }
 
         if (right < 0) {
-            pins.digitalWritePin(DigitalPin.P14, 1);
-            pins.digitalWritePin(DigitalPin.P15, 0);
+            pins.digitalWritePin(DigitalPin.P12, 1);
+            pins.digitalWritePin(DigitalPin.P13, 0);
         } else if (right == 0) {
-            pins.digitalWritePin(DigitalPin.P14, 0);
-            pins.digitalWritePin(DigitalPin.P15, 0);
+            pins.digitalWritePin(DigitalPin.P12, 0);
+            pins.digitalWritePin(DigitalPin.P13, 0);
         } else if (right > 0) {
-            pins.digitalWritePin(DigitalPin.P14, 0);
-            pins.digitalWritePin(DigitalPin.P15, 1);
+            pins.digitalWritePin(DigitalPin.P12, 0);
+            pins.digitalWritePin(DigitalPin.P13, 1);
         }
 
         if (left < 0) {
-            pins.digitalWritePin(DigitalPin.P12, 0);
-            pins.digitalWritePin(DigitalPin.P13, 1);
+            pins.digitalWritePin(DigitalPin.P14, 0);
+            pins.digitalWritePin(DigitalPin.P15, 1);
         } else if (left == 0) {
-            pins.digitalWritePin(DigitalPin.P12, 0);
-            pins.digitalWritePin(DigitalPin.P13, 0);
+            pins.digitalWritePin(DigitalPin.P14, 0);
+            pins.digitalWritePin(DigitalPin.P15, 0);
         } else if (left > 0) {
-            pins.digitalWritePin(DigitalPin.P12, 1);
-            pins.digitalWritePin(DigitalPin.P13, 0);
+            pins.digitalWritePin(DigitalPin.P14, 1);
+            pins.digitalWritePin(DigitalPin.P15, 0);
         }
 
-        pins.analogWritePin(AnalogPin.P16, Math.abs(right));
-        pins.analogWritePin(AnalogPin.P9, Math.abs(left));
+        pins.analogWritePin(AnalogPin.P9, Math.abs(right));
+        pins.analogWritePin(AnalogPin.P16, Math.abs(left));
     }
 
 
@@ -210,7 +210,7 @@ namespace IRCbitCar {
     /*-------------------------------------------------------
     関数名：initMPU6050
     引数：sensitivity(enum型)
-    　　sensitivity:センサー感度(250dps,500dps,1000dps,2000dps)
+      sensitivity:センサー感度(250dps,500dps,1000dps,2000dps)
     
     戻り値：無し
     内容：ジャイロセンサーの起動
@@ -224,7 +224,7 @@ namespace IRCbitCar {
     let zSen = 0x00
     let scaleFactor = 131
 
-    
+
     export enum gyroSen {
         //% block="250dps"
         range_250_dps,
@@ -242,7 +242,7 @@ namespace IRCbitCar {
         //% block="停止"
         power_off
     }
-    
+
     function i2cWrite(addr: number, reg: number, value: number) {
         let buf = pins.createBuffer(2)
         buf[0] = reg
@@ -261,7 +261,7 @@ namespace IRCbitCar {
 
 
     export function initMPU6050(power: onoff) {
-        if (power == onoff.power_on){           
+        if (power == onoff.power_on) {
             i2cWrite(MPU6050_ADDR, 0x6B, 0x00) // MPU6050を起動する
             i2cWrite(MPU6050_ADDR, 0x1B, zSen) // ジャイロの感度を設定する 
             calibrateGyroZ()
@@ -269,25 +269,25 @@ namespace IRCbitCar {
                 control.clearInterval(intervalId, control.IntervalMode.Interval);
             }
             runtime = input.runningTime()
-            intervalId = control.setInterval(function(){
+            intervalId = control.setInterval(function () {
                 runInterval = input.runningTime() - runtime
                 yawAngle = getYawAngle()
                 runtime = input.runningTime()
-            },10,control.IntervalMode.Interval)
-        }else {
+            }, 10, control.IntervalMode.Interval)
+        } else {
             i2cWrite(MPU6050_ADDR, 0x6B, 0x40)
-            if (intervalId){
-                control.clearInterval(intervalId,control.IntervalMode.Interval);
+            if (intervalId) {
+                control.clearInterval(intervalId, control.IntervalMode.Interval);
             }
         }
     }
 
 
-    
+
     /*-------------------------------------------------------
     関数名：gyroSensorDps
     引数：sensitivity(enum型)
-    　　sensitivity:センサー感度(250dps,500dps,1000dps,2000dps)
+      sensitivity:センサー感度(250dps,500dps,1000dps,2000dps)
     
     戻り値：無し
     内容：ジャイロセンサーの感度を設定できる
@@ -363,9 +363,9 @@ namespace IRCbitCar {
     内容：ヨー回転の回転角を求める関数
     -------------------------------------------------------*/
 
-    
 
-    export function getYawAngle():number{
+
+    export function getYawAngle(): number {
         gyroZ = readGyroZ() - gyroZOffset // オフセットを引く
         yaw += gyroZ * runInterval * 0.00103 / scaleFactor
         while (Math.abs(yaw) > 180) {
@@ -389,7 +389,7 @@ namespace IRCbitCar {
     内容：ヨー回転の回転角を0にする関数
     -------------------------------------------------------*/
 
-    export function resetYawAngle(){
+    export function resetYawAngle() {
         yaw = 0
     }
 
