@@ -17,7 +17,7 @@ namespace robots {
      * @param left 左モーターの制御値（-1023から1023）
      */
     //% blockId="input_Moter"
-    //% block="右タイヤを $right 、左タイヤを $left の速さで回す"
+    //% block="左タイヤを $left 、右タイヤを $right の速さで回す"
     //% right.min=-1023 right.max=1023 left.min=-1023 left.max=1023
     //% weight=109
     //% group="動作"
@@ -41,11 +41,11 @@ namespace robots {
 
     
     /**
-     * IRセンサーのアナログ値を500回分取得し、平均を求める関数
-     * @returns 平均IRセンサー値（赤外線の近さを数値化：数値が高ければ近い。）
+     * IRセンサーの値を求める関数
+     * @returns IRセンサー値（赤外線の近さを数値化：数値が高ければ近い。）
      */
     //% blockId="get_IR_ver"
-    //% block="IRセンサー平均値"
+    //% block="IRセンサー"
     //% weight=99
     //% group="センサー(赤外線・ライン・超音波・コンパス)"
     export function getIRVar():number {
