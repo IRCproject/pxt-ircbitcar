@@ -1,3 +1,7 @@
+https://ircproject.mirai-academy.com/2024/08/19/%e6%95%99%e8%82%b2%e7%94%a8%e3%83%ad%e3%83%9c%e3%83%83%e3%83%88ircbit%e3%82%92%e9%96%8b%e7%99%ba%e3%81%97%e3%81%be%e3%81%97%e3%81%9f%e3%80%82/
+製品ページ
+product web page
+
 ## 拡張機能として使用
 
 このリポジトリは、MakeCode で **拡張機能** として追加できます。
