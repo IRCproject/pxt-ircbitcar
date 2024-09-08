@@ -4,7 +4,7 @@ IRCbitCar ver1.0.0
 
 
 
-//% weight=0 color=#3333df icon="\uf2db" block="IRC bit Car2"
+//% weight=0 color=#3333df icon="\uf2db" block="IRC bit Car"
 namespace IRCbitCar {
 
 /*-------------------------------------------------------
