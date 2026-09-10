@@ -8,6 +8,87 @@ IRCbitCar ver1.0.0
 namespace IRCbitCar {
 
 /*-------------------------------------------------------
+AボタンとBボタンによる動作制御
+・Aボタンを押すと動作を許可する
+・Bボタンを押すと動作を禁止し、モーターを止める
+・inputMoter()は、動作が許可されている時だけタイヤを回す
+  （子どもたちは「ずっと」の中にモーターのブロックを置くだけでよい）
+-------------------------------------------------------*/
+
+    let isRunning = false; // 動作が許可されているかどうか
+
+    input.onButtonPressed(Button.A, function () {
+        isRunning = true;
+    });
+
+    input.onButtonPressed(Button.B, function () {
+        isRunning = false;
+        stopMoter();
+    });
+
+/*-------------------------------------------------------
+関数名：whileRunning
+引数：body(関数)
+
+戻り値：無し
+内容：Aボタンが押されてから、Bボタンが押されるまでの間だけ
+  中に入れたブロックを実行する枠。
+  モーター制御に限らず、音・LED・センサーなど何を入れてもよい。
+  子どもは「ずっと」の中にこのブロックを置き、その中に
+  好きな処理を組み立てるだけでよい。
+-------------------------------------------------------*/
+
+    /**
+     * Aボタンが押されている間（Bボタンが押されるまで）だけ、
+     * 中に入れたブロックを実行します。
+     */
+    //% blockId="while_running"
+    //% block="うごいている間"
+    //% weight=160
+    //% group="動作"
+
+    export function whileRunning(body: () => void): void {
+        if (isRunning) {
+            body();
+        }
+    }
+
+    /**
+     * 今、動作中（Aボタンが押されてからBボタンが押されるまでの間）かどうかを返します。
+     */
+    //% blockId="is_running"
+    //% block="うごいている"
+    //% weight=159
+    //% group="動作"
+
+    export function getIsRunning(): boolean {
+        return isRunning;
+    }
+
+/*-------------------------------------------------------
+関数名：waitMs
+引数：ms(number型)
+
+戻り値：無し
+内容：指定したミリ秒だけ待つ関数。
+  標準の「一時停止」ブロックと中身は同じだが、
+  「止める」と紛らわしいので、分かりやすい言葉にしたもの。
+-------------------------------------------------------*/
+
+    /**
+     * 指定した時間（ミリ秒）だけ待ちます。
+     */
+    //% blockId="wait_ms"
+    //% block="$ms ミリ秒待つ"
+    //% ms.shadow="timePicker"
+    //% weight=158
+    //% group="動作"
+
+    export function waitMs(ms: number): void {
+        basic.pause(ms);
+    }
+
+/*-------------------------------------------------------
 関数名：imputMoter
 引数：right(number型), left(number型)
   right:右モーターの制御値（-1023から1023）
@@ -29,6 +110,12 @@ namespace IRCbitCar {
     //% group="動作"
 
     export function inputMoter(right: number, left: number): void {
+        if (!isRunning) {
+            // Aボタンが押されるまで（またはBボタンで止められた後は）動かさない
+            stopMoter();
+            return;
+        }
+
         if (right < -1023) {
             right = -1023;
         } else if (right > 1023) {
